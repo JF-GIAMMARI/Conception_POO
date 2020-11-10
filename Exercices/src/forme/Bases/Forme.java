@@ -7,8 +7,8 @@ import java.util.Objects;
  * @author Jean-François Giammari
  */
 public abstract class Forme {
-    static int nb_forme;
-    public String name;
+    static int nb_forme = 0;
+    public final String name;
 
 
     /** CONSTRUCTOR **/
