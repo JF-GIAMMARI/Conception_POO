@@ -64,7 +64,7 @@ public abstract class Forme {
         if (this == o) return true;
         if (!(o instanceof Forme)) return false;
         Forme forme = (Forme) o;
-        return Objects.equals(this.surface(), forme.surface());
+        return this.surface() == forme.surface();
     }
 
 }

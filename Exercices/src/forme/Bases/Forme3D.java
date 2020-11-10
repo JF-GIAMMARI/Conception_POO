@@ -28,9 +28,7 @@ public abstract class Forme3D extends Forme2D {
     /**
      * @return the volume of a shape
      */
-    public double volume() {
-        return 0.0;
-    }
+    public abstract double volume();
 
     /**
      * @return a String that describe the shape
@@ -48,7 +46,7 @@ public abstract class Forme3D extends Forme2D {
         if (this == o) return true;
         if (!(o instanceof Forme3D)) return false;
         Forme3D forme3d = (Forme3D) o;
-        return super.equals(o) && Objects.equals(this.volume(), forme3d.volume());
+        return super.equals(o) && this.volume() == forme3d.volume();
     }
 
 

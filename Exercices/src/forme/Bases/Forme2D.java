@@ -26,9 +26,7 @@ public abstract class Forme2D extends Forme {
     /**
      * @return the perimetre of a shape
      */
-    public double perimetre(){
-        return 0.0;
-    }
+    public abstract double perimetre();
 
     /**
      * @return a String that describe the shape
@@ -46,7 +44,7 @@ public abstract class Forme2D extends Forme {
         if (this == o) return true;
         if (!(o instanceof Forme2D)) return false;
         Forme2D forme2d = (Forme2D) o;
-        return super.equals(o) && Objects.equals(this.perimetre(), forme2d.perimetre());
+        return super.equals(o) && this.perimetre() == forme2d.perimetre();
     }
 
 
