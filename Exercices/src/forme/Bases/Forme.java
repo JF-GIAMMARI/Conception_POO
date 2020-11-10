@@ -32,9 +32,7 @@ public abstract class Forme {
     /**
      * @return the surface of a shape
      */
-    public double surface(){
-        return 0.0;
-    }
+    public abstract double surface();
 
     /**
      * @return True if the surface of shape is strictly more high than an other
