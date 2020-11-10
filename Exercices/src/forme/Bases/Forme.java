@@ -35,7 +35,7 @@ public abstract class Forme {
     public abstract double surface();
 
     /**
-     * @return True if the surface of shape is strictly more high than an other
+     * @return True if the surface of shape is strictly highter than an other
      */
     public boolean compareTo(Object o) {
         if (this == o) return true;
