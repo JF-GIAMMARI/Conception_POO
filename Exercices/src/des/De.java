@@ -10,7 +10,7 @@ import java.util.*;
 public class De {
     private final static int MIN_SIDE = 3;
     private final static int MAX_SIDE = 120;
-    private int nbFaces = 6;
+    private int nbFaces;
     private String name;
     static int nb_De;
     protected static Random r = new Random();
@@ -23,8 +23,11 @@ public class De {
      * @param init_nbFace : Number of side of the side
      */
     public De(String init_name, int init_nbFace) {
-        setNbFaces(init_nbFace);
-        checkName(init_name);
+
+        if (init_name == null || init_name.equals("")) throw new IllegalArgumentException("Le nom n'est pas valide");
+        if (init_nbFace < MIN_SIDE || init_nbFace > MAX_SIDE) throw new IllegalArgumentException("Le nombre de face n'est pas valide");
+        this.name = init_name;
+        this.nbFaces = init_nbFace;
         nb_De++;
     }
 
