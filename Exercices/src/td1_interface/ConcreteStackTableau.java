@@ -1,10 +1,10 @@
 package td1_interface;
 import java.util.Arrays;
+import java.util.EmptyStackException;
 
 public class ConcreteStackTableau implements AStack {
-
-    //pas besoin nbObjets --> tab.lenght
-    private Object tab[] = new Object[10];
+    public static int maxSize = 5;
+    private Object tab[] = new Object[maxSize];
     private int nbObjets =0 ;
 
     public ConcreteStackTableau(){
@@ -23,36 +23,33 @@ public class ConcreteStackTableau implements AStack {
     }
 
     @Override
-   public void push(Object objet) {
-        System.out.println(nbObjets);
-        if(nbObjets<10){
-        tab[nbObjets]= objet;
-        nbObjets++;}
-       else{
-           System.err.println("trop d'objets");
+   public void push(Object objet) throws FullStackException  {
+        if (nbObjets>=maxSize) throw new FullStackException("La pile est pleine");
+        else{
+            tab[nbObjets]= objet;
+            nbObjets++;
         }
     }
-
 
 
     @Override
     public Object peek() {
         Object result=null;
-        if(this.isEmpty()==false){
-            int indice= this.nbObjets-1;
-            result= tab[indice];
-        }
+        if (isEmpty()) throw new EmptyStackException();
+        int indice = this.nbObjets-1;
+        result= tab[indice];
+
+
         return result;
     }
 
     @Override
     public Object pop() {
         Object result=null;
-        if(this.isEmpty()==false){
-            int indice= this.nbObjets-1;
-            tab[indice]=null;
-            nbObjets+=-1;
-        }
+        if (isEmpty()) throw new EmptyStackException();
+        int indice= this.nbObjets-1;
+        tab[indice]=null;
+        nbObjets+=-1;
         return result;
     }
 
@@ -64,25 +61,27 @@ public class ConcreteStackTableau implements AStack {
     }
 
     public static void main(String args[]){
-        ConcreteStackTableau carotte = new ConcreteStackTableau();
+        ConcreteStackTableau t = new ConcreteStackTableau();
+        try{
+            t.push(1);
+            t.push(2);
+            t.push(3);
+            t.push(4);
+            t.push(5);
+            t.push(6);
+        }catch(FullStackException e){
+            System.err.println(e);
 
-        System.out.println(carotte.toString());
-        carotte.push(1);
-        carotte.push(2);
-        carotte.push(3);
-        carotte.push(4);
-        carotte.push(5);
-        carotte.push(6);
-        carotte.push(7);
-        carotte.push(8);
-        carotte.push(9);
-        carotte.push(10);
-        carotte.push(11);
+        }
 
-
-
-        System.out.println(carotte.peek());
-       // carotte.pop();
-        System.out.println(carotte.toString());
+        System.out.println(t.peek());
+        t.pop();
+        t.pop();
+        t.pop();
+        t.pop();
+        t.pop();
+        t.pop();
+        t.pop();
+        System.out.println(t.toString());
     }
 }
