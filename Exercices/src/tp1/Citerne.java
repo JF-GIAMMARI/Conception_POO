@@ -8,7 +8,7 @@ import java.time.LocalDate;
  */
 
 
-public class Citerne {
+public class Citerne implements EstComparable{
     enum liquid_type {NONE, WATER, VINE, OIL} // Liste des type de liquide utilisable
     static int nb_Citerne = 0; // Nombre de d'instance de Citerne
     public final int id; // ID de la citerne
@@ -18,8 +18,6 @@ public class Citerne {
     private float quantity = 0; // Quantité de liquide présent dans la citerne
     private liquid_type liquid; // Liquide présent dans la citerne
 
-
-    /** CONSTRUCTOR **/
     /**
      * Constructeur pour créer une Citerne
      * @param capacity : Capacité maximal
@@ -150,19 +148,44 @@ public class Citerne {
         return "Type : " + liquid + " - " + quantity + " m2 - " + date;
     }
 
-    @Override
     /**
+     * Compare une citerne a une autre citerne en fonction d'abord e la quantité, et si nécessaire, la capacité
+     * @param o l'objet Citerne a comparer
+     * @return Si o est > : 0, Si o est < :1, Si o est egale : 0
+     */
+    public int compareA(Object o) {
+        int result = 0;
+        if(o == null) throw new NullPointerException();
+        if(!(o instanceof Citerne)){throw new ClassCastException("Impossible de comparer les deux objets (Différence de Classe)");}else {
+            Citerne citerne_ext = (Citerne) o;
+            if (quantity < citerne_ext.quantity) {
+                result = -1;
+            } else if (quantity > citerne_ext.quantity) {
+                result = 1;
+            }else{
+                if(capacity < citerne_ext.capacity){
+                    result = -1;
+                } else if (capacity > citerne_ext.capacity){
+                    result = 1;
+                }
+            }
+        }
+        return result;
+    }
+
+    /*
      * Permet d'afficher les caractéristiques de la citerne
      */
+    @Override
     public String toString() {
         return "Citerne n°" + id + " | " + liquid + " - Capacité : " + capacity + " m2 - Mise en Service : " + date + " - Volume occupé : " + quantity;
     }
 
-    @Override
     /**
      * Permet de vérifier l'égalité entre deux citerne (Liquide, Capacité, Date)
      * @return True si c'est égale, sinon False
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

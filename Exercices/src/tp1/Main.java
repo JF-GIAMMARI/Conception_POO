@@ -6,8 +6,6 @@ package tp1;
  */
 public class Main {
     public static void main(String[] args) {
-
-
         try{
             System.out.println("---------EX1----------");
             MonTableau m0 = new MonTableau(); // Test tableau vide
@@ -20,7 +18,6 @@ public class Main {
         }catch (ClassCastException | NullPointerException e){
             e.printStackTrace();
         }
-
 
         Citerne c1 = null;
         Citerne c2 = null;
