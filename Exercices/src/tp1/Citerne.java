@@ -9,7 +9,10 @@ import java.time.LocalDate;
 
 
 public class Citerne implements EstComparable{
-    enum liquid_type {NONE, WATER, VINE, OIL} // Liste des type de liquide utilisable
+    public enum liquid_type {NONE, WATER, VINE, OIL} // Liste des type de liquide utilisable
+    public final int MAXLIQUIDCAPACITY = 20000;
+    public final int MINLIQUIDCAPACITY = 1;
+
     static int nb_Citerne = 0; // Nombre de d'instance de Citerne
     public final int id; // ID de la citerne
     public final LocalDate date; // Date de création de la citerne
@@ -25,12 +28,33 @@ public class Citerne implements EstComparable{
      */
     public Citerne(float capacity, liquid_type liquid) throws IllegalCapacityException {
         assert liquid != null;
-        if (capacity < 1 || capacity > 20000) throw new IllegalCapacityException();
+        if (capacity < MINLIQUIDCAPACITY || capacity > MAXLIQUIDCAPACITY) throw new IllegalCapacityException();
         nb_Citerne++;
         this.liquid = liquid;
         this.date = LocalDate.now();
         this.id = nb_Citerne;
         this.capacity = capacity;
+    }
+
+    /**
+     * Getter pour la capacité maximum
+     */
+    public float getCapacity() {
+        return capacity;
+    }
+
+    /**
+     * Getter pour la quantitée présente dans la citerne
+     */
+    public float getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * Getter pour le type de liduide présent dans la Citerne
+     */
+    public liquid_type getLiquid() {
+        return liquid;
     }
 
 
@@ -63,13 +87,6 @@ public class Citerne implements EstComparable{
     }
 
     /**
-     * Getter pour le type de liduide présent dans la Citerne
-     */
-    public liquid_type getLiquid() {
-        return liquid;
-    }
-
-    /**
      * Détermine le volume correspondant a un pourcentage en fonction d'une référence
      * @param poucentage : Le pourcentage entre 0 et 1
      * @param reference : La référence du calcul (Quantité daja présente ou Capacité Maximum
@@ -84,12 +101,12 @@ public class Citerne implements EstComparable{
      * @param volume : Entier représentant le volume a retirer
      */
     public void takeLiquid(int volume) throws MinLiquidQuantityException {
-        if(volume < 1) throw new IllegalArgumentException();
+        if(volume <= 0) throw new IllegalArgumentException();
         quantity -= volume;
         if (quantity < 0) {
             float rest = -quantity;
             quantity = 0;
-            throw new MinLiquidQuantityException("Citerne N°"+id+" est vide : " + rest + "m2 restant sont manquant");
+            throw new MinLiquidQuantityException("Citerne N°"+id+" est vide : " + rest + "m3 restant sont manquant");
         }
     }
 
@@ -98,13 +115,13 @@ public class Citerne implements EstComparable{
      * @param volume : Entier représentant le volume a ajouter
      */
     public void addLiquid(int volume) throws EmptyLiquidTypeException, MaxLiquidQuantityException {
-        if(volume <= 1) throw new IllegalArgumentException();
+        if(volume <= 0) throw new IllegalArgumentException();
         if (liquid == liquid_type.NONE) throw new EmptyLiquidTypeException();
         quantity += volume;
         float rest = quantity - capacity ;
         if (rest > 0) {
             quantity = capacity;
-            throw new MaxLiquidQuantityException("Citerne N°"+id+" pleine : " + rest + "m2 restant a déverser");
+            throw new MaxLiquidQuantityException("Citerne N°"+id+" pleine : " + rest + "m3 restant a déverser");
         }
     }
     /**
@@ -119,7 +136,7 @@ public class Citerne implements EstComparable{
      * addLiquid prenant en entrer un poucentage
      * @param pourcentage : Le pourcentage entre 0 et 1
      */
-    public void addLiquid(float pourcentage) throws EmptyLiquidTypeException, MaxLiquidQuantityException {
+    public void addLiquid(float pourcentage) throws EmptyLiquidTypeException, MaxLiquidQuantityException{
         int volume = setQuantityPourcentage(pourcentage,capacity);
         addLiquid(volume);
     }
@@ -145,7 +162,7 @@ public class Citerne implements EstComparable{
      * Permet d'afficher le contenu de la citerne (Liquide, Quantité, Date)
      */
     public String getContenu() {
-        return "Type : " + liquid + " - " + quantity + " m2 - " + date;
+        return "Type : " + liquid + " - " + quantity + " m3 - " + date;
     }
 
     /**
@@ -173,12 +190,12 @@ public class Citerne implements EstComparable{
         return result;
     }
 
-    /*
+    /**
      * Permet d'afficher les caractéristiques de la citerne
      */
     @Override
     public String toString() {
-        return "Citerne n°" + id + " | " + liquid + " - Capacité : " + capacity + " m2 - Mise en Service : " + date + " - Volume occupé : " + quantity;
+        return "Citerne n°" + id + " | " + liquid + " - Capacité : " + capacity + " m3 - Mise en Service : " + date + " - Volume occupé : " + quantity+"m3";
     }
 
     /**

@@ -22,6 +22,9 @@ public class Main {
         Citerne c1 = null;
         Citerne c2 = null;
         Citerne c3= null;
+        CiterneSecurisee cs1 = null;
+        CiterneSecurisee cs2 = null;
+        CiterneSecurisee cs3 = null;
         try {
             System.out.println("\n---------EX2----------");
             //c1 = new Citerne(2000000, Citerne.liquid_type.VINE); // Instanciation avec un mauvais argument
@@ -74,8 +77,52 @@ public class Main {
             System.out.println(c2.getContenu());
         }catch (IsNotCleanException e) { e.printStackTrace(); }
 
+        try{ // Test compareA
+            assert c1 != null && c2 != null && c3 != null;
+            System.out.println(c1.compareA(c2)); // Test 1
+            System.out.println(c2.compareA(c3)); // Test -1
+            System.out.println(c1.compareA(c1)); // Test 0
+        }catch (ClassCastException e) { e.printStackTrace(); }
+
+        try {
+            System.out.println("\n----- Citerne Sécurisée -----");
+            cs1 = new CiterneSecurisee(200, Citerne.liquid_type.VINE, 50);
+            cs2 = new CiterneSecurisee(200, Citerne.liquid_type.WATER); // Test par trop plein non définis
+            cs3 = new CiterneSecurisee(200, Citerne.liquid_type.VINE, 50);
+
+            System.out.println(cs1); // ToString
+            System.out.println(cs2);
+            System.out.println(cs3);
+            cs3.changeTropPlein(200); // Change capacté trop plein
+            System.out.println(cs3);
+
+            System.out.println(cs1.compareA(cs2)); // Test 1
+            System.out.println(cs2.compareA(cs1)); // Test -1
+            System.out.println(cs1.compareA(cs3)); // Test 0
+
+            System.out.println(cs1.equals(cs2)); // Test equals
+            System.out.println(cs1.equals(cs3));
 
 
+            System.out.println(" Test des ajouts et retraits de liquide");
+            cs1.addLiquid(50);
+            assert cs1.getQuantity() == 50;
+            System.out.println(cs1.getContenu());
+            cs1.takeLiquid(20);
+            assert cs1.getQuantity() == 30;
+            System.out.println(cs1.getContenu());
+            cs1.addLiquid(190);
+            assert cs1.getQuantity() == 220;
+            System.out.println(cs1.getContenu());
+            cs1.addLiquid(50);
+            assert cs1.getQuantity() == 250;
+            System.out.println(cs1.getContenu());
+            assert cs1.getQuantity() == 199;
+            cs1.takeLiquid(51);
+            System.out.println(cs1.getContenu());
 
+        } catch (IllegalArgumentException | IllegalCapacityException |IsNotCleanException | MaxLiquidQuantityException | EmptyLiquidTypeException | MinLiquidQuantityException e) {
+            e.printStackTrace();
+        }
     }
 }
