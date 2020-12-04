@@ -1,6 +1,9 @@
 package tp1;
 
-public class CiterneSecurisee extends Citerne{
+import clonage.Mere;
+import clonage.UneClasse;
+
+public class CiterneSecurisee extends Citerne implements Cloneable{
     private float capacityTP; // Capacité maximal du trop plein
     private float quantityTP = 0; // Quantité de liquide présent dans le trop plein
     public final int DEFAULTCAPACITY = 10; // Quantité du trop plein par défaut en pourcent
@@ -21,6 +24,21 @@ public class CiterneSecurisee extends Citerne{
     public CiterneSecurisee(float capacity, liquid_type liquid) throws IllegalCapacityException {
         this(capacity,liquid,0);
     }
+
+    /**
+     * Getter pour la capacité maximum du trop plein
+     */
+    public float getCapacityTP() {
+        return capacityTP;
+    }
+
+    /**
+     * Getter pour la quantitée présente dans le trop plein
+     */
+    public float getQuantityTP() {
+        return quantityTP;
+    }
+
 
     /**
      * takeLiquid prenant en entrer un volume
@@ -92,7 +110,8 @@ public class CiterneSecurisee extends Citerne{
      */
     private void checkAlert(){
         if(getQuantity() >= getCapacity()){System.err.println("Attention : La citerne est pleine, le trop plein est remplis avec " +quantityTP+" m3");}
-        if(quantityTP >= capacityTP/2){System.err.println("Attention : Le trop plein est remplis a plus de 50%  ("+quantityTP+"m3)");}
+        if(quantityTP >= capacityTP/2 && quantityTP != capacityTP){System.err.println("Attention : Le trop plein est remplis a plus de 50%  ("+quantityTP+"m3)");}
+        if(quantityTP == capacityTP){System.err.println("Attention : Le trop plein est.. plein");}
     }
 
     /**
@@ -129,7 +148,9 @@ public class CiterneSecurisee extends Citerne{
         return super.getContenu()+ " - Quantité du trop plein " + quantityTP + " m3";
     }
 
-
+    /**
+     * Permet d'afficher les caractéristiques de la citerne sécurisée
+     */
     @Override
     public String toString() {
         return super.toString() + " - Capacité du trop plein : " + capacityTP + " - Volume occupé du trop plein : " + quantityTP;
@@ -146,5 +167,25 @@ public class CiterneSecurisee extends Citerne{
         CiterneSecurisee c = (CiterneSecurisee) o;
         return super.equals(o) && quantityTP == c.quantityTP && capacityTP == c.capacityTP;
     }
+
+    /**
+     * Clonage profond de CiterneSecurisée
+     * @return Copie
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        CiterneSecurisee c = null;
+        try{
+            c = (CiterneSecurisee) super.clone();
+            c.quantityTP  = getQuantityTP();
+            c.capacityTP = getCapacityTP();
+
+        }catch(CloneNotSupportedException e){
+            throw  new InternalError();
+        }
+        return c;
+    }
+
 
 }

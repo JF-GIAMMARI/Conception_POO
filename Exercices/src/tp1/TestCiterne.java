@@ -1,10 +1,10 @@
 package tp1;
 /**
- * Class name : Main
+ * Class name : TestCiterne
  * Description : Classe de test pour le TP
  * @author Jean-François Giammari & Alexandre Motbal
  */
-public class Main {
+public class TestCiterne {
     public static void main(String[] args) {
         try{
             System.out.println("---------EX1----------");
@@ -35,7 +35,7 @@ public class Main {
 
 
         try{ // Test Equals & ToString
-            assert c1 != null && c2 != null && c3 != null;
+            assert c1 != null || c2 != null || c3 != null;
             System.out.println(c1.equals(c2));
             System.out.println(c1.equals(c3));
             System.out.println(c1.plusAncienne(c2));
@@ -45,7 +45,7 @@ public class Main {
         }catch (Exception e){ e.printStackTrace(); }
         
         try{ // Test addLiquid
-            assert c1 != null && c2 != null && c3 != null;
+            assert c1 != null || c2 != null || c3 != null;
             Citerne c4 = new Citerne(200, Citerne.liquid_type.NONE);
             //c4.addLiquid(20); // Ajout sans liquide définis
             c1.addLiquid(20); // Ajout avec volume
@@ -58,7 +58,7 @@ public class Main {
         } catch (MaxLiquidQuantityException | EmptyLiquidTypeException | IllegalCapacityException e) { e.printStackTrace(); }
         
         try{ // Test takeLiquid
-            assert c1 != null && c2 != null && c3 != null;
+            assert c1 != null || c2 != null || c3 != null;
             c1.takeLiquid(10); // Prendre avec volume
             c3.takeLiquid((float)0.4); // Prendre avec poucentage
             //c2.takeLiquid(500); // Prendre trops
@@ -69,7 +69,7 @@ public class Main {
 
 
         try{ // Test changeLiquid & cleanCiterne
-            assert c1 != null && c2 != null && c3 != null;
+            assert c1 != null || c2 != null || c3 != null;
             System.out.println(c2.getContenu());
             //c2.changeLiquid(Citerne.liquid_type.WATER); //  Changement sans cleanCiterne
             c2.cleanCiterne(); // cleanCiterne
@@ -78,7 +78,7 @@ public class Main {
         }catch (IsNotCleanException e) { e.printStackTrace(); }
 
         try{ // Test compareA
-            assert c1 != null && c2 != null && c3 != null;
+            assert c1 != null || c2 != null || c3 != null;
             System.out.println(c1.compareA(c2)); // Test 1
             System.out.println(c2.compareA(c3)); // Test -1
             System.out.println(c1.compareA(c1)); // Test 0
@@ -103,26 +103,39 @@ public class Main {
             System.out.println(cs1.equals(cs2)); // Test equals
             System.out.println(cs1.equals(cs3));
 
-
-            System.out.println(" Test des ajouts et retraits de liquide");
+            //cs1.takeLiquid(50);
             cs1.addLiquid(50);
-            assert cs1.getQuantity() == 50;
-            System.out.println(cs1.getContenu());
+            assert(cs1.getQuantity() == 50.0):"Erreur sur la résultat attendu ";
             cs1.takeLiquid(20);
-            assert cs1.getQuantity() == 30;
-            System.out.println(cs1.getContenu());
-            cs1.addLiquid(190);
-            assert cs1.getQuantity() == 220;
-            System.out.println(cs1.getContenu());
-            cs1.addLiquid(50);
-            assert cs1.getQuantity() == 250;
-            System.out.println(cs1.getContenu());
-            assert cs1.getQuantity() == 199;
-            cs1.takeLiquid(51);
-            System.out.println(cs1.getContenu());
+            assert(cs1.getQuantity() == 30.0):"Erreur sur la résultat attendu";
+            cs1.addLiquid(170);
+            assert(cs1.getQuantity() == 200.0):"Erreur sur la résultat attendu";
+            cs1.addLiquid(20);
+            assert(cs1.getQuantity() == 200.0 || cs1.getQuantityTP() != 20.0 ):"Erreur sur la résultat attendu";
+            cs1.addLiquid(29);
+            assert(cs1.getQuantity() == 200.0 || cs1.getQuantityTP() != 49.0 ):"Erreur sur la résultat attendu";
+            cs1.addLiquid(1);
+            assert(cs1.getQuantity() == 200.0 || cs1.getQuantityTP() != 50.0 ):"Erreur sur la résultat attendu";
+            //cs1.addLiquid(20);
+            assert(cs1.getQuantity() == 200.0 || cs1.getQuantityTP() != 50.0 ):"Erreur sur la résultat attendu";
+            cs1.takeLiquid(60);
+            assert(cs1.getQuantity() == 190.0 || cs1.getQuantityTP() != 0.0 ):"Erreur sur la résultat attendu";
+            cs1.takeLiquid(60);
+            assert(cs1.getQuantity() == 130.0 || cs1.getQuantityTP() != 0.0 ):"Erreur sur la résultat attendu";
+            //cs1.addLiquid(160);
+            //assert(cs1.getQuantity() == 200 || cs1.getQuantityTP() != 50 ):"Erreur sur la résultat attendu";
 
-        } catch (IllegalArgumentException | IllegalCapacityException |IsNotCleanException | MaxLiquidQuantityException | EmptyLiquidTypeException | MinLiquidQuantityException e) {
+            // Test clonage profond
+            CiterneSecurisee cs4 = (CiterneSecurisee) cs1.clone();
+            System.out.println("CS4 : "+cs4.getContenu()); // Clonage
+            System.out.println("CS1 : "+cs1.getContenu()); // Check Origine
+            cs4.addLiquid(20); // Ajout sur la copie
+            System.out.println("CS4 : "+cs4.getContenu()); // Check copie
+            System.out.println("CS1 : "+cs1.getContenu()); // Check aucune modification origine
+        } catch (IllegalArgumentException | IllegalCapacityException | IsNotCleanException | MaxLiquidQuantityException | EmptyLiquidTypeException | MinLiquidQuantityException | CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
+
     }
 }
