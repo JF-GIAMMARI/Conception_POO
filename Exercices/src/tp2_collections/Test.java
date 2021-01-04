@@ -37,9 +37,9 @@ public class Test {
         System.out.println(PairTest.get(1).getObj2());
 
         System.out.println("\nEXERCICE 2 \n");
-        // Dictionnaire réduis pour un temps de calcul acceptable
-        //AnagrammeDetector ad = new AnagrammeDetector("mots.txt", 2);
-        //System.out.println(ad.getAnagram());
+        //Dictionnaire réduis pour un temps de calcul acceptable (10s)
+        AnagrammeDetector ad = new AnagrammeDetector("dictionnaire.txt", 2);
+        System.out.println(ad.getAnagram());
 
         System.out.println("\nEXERCICE 3 \n");
         RList RL1 = new RList(10);
