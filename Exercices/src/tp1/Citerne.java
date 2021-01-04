@@ -1,4 +1,5 @@
 package tp1;
+
 import java.time.LocalDate;
 
 /**
@@ -8,7 +9,7 @@ import java.time.LocalDate;
  */
 
 
-public class Citerne implements EstComparable{
+public class Citerne implements EstComparable {
     public enum liquid_type {NONE, WATER, VINE, OIL} // Liste des type de liquide utilisable
     public final int MAXLIQUIDCAPACITY = 20000;
     public final int MINLIQUIDCAPACITY = 1;
